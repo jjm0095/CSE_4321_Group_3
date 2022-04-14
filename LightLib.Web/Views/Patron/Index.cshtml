@@ -64,8 +64,17 @@
         
 		<nav aria-label="Patron Table Navigation Bottom">
 			@{
-				var previousPage = (Model.PageOfPatrons.PageNumber - 1);
+				var previousPage = 1;
 				var nextPage = (Model.PageOfPatrons.PageNumber + 1);
+				if (Model.PageOfPatrons.PageNumber - 1 == 0)
+				{
+					previousPage = 1;
+				}
+				else
+				{
+					previousPage = (Model.PageOfPatrons.PageNumber - 1);
+				}
+				
 				var prevDisabled = !Model.PageOfPatrons.HasPreviousPage ? "disabled" : "";
 				var nextDisabled = !Model.PageOfPatrons.HasNextPage ? "disabled" : "";
 			}
@@ -148,7 +157,7 @@
 				    <br/>
 				    <ul class="pagination">
 					    <li class="page-item small">
-						    @Html.ActionLink("Add New Patron", "Index", "Patron", new { page = 0}, new { @class="page-link" })
+						    @Html.ActionLink("Add New Patron", "Index", "Patron", new { page = 1}, new { @class="page-link" })
 					    </li>
 					</ul>
 			    </div>

@@ -2,18 +2,21 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using LightLib.Data.Models;
 using LightLib.Models;
 using LightLib.Models.DTOs;
 using LightLib.Service.Helpers;
 using LightLib.Service.Interfaces;
 using LightLib.Web.Models.Patron;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Metadata.Internal;
 
 namespace LightLib.Web.Controllers {
     
     public class PatronController : LibraryController {
         private readonly IPatronService _patronService;
-
+        private PatronDBContext db = new PatronDBContext();
         public PatronController(IPatronService patronService) {
             _patronService = patronService;
         }
@@ -90,6 +93,10 @@ namespace LightLib.Web.Controllers {
         public async Task<IActionResult> Delete(int id)
         {
             var patron = await _patronService.Get(id);
+            var assetsCheckedOut = await _patronService.GetPaginatedCheckouts(patron.Id, 1, 10);
+            var checkoutHistory = await _patronService.GetPaginatedCheckoutHistory(patron.Id, 1, 10);
+            var holds = await _patronService.GetPaginatedHolds(patron.Id, 1, 10);
+            var memberLengthOfTime = TimeSpanHumanizer.GetReadableTimespan(DateTime.UtcNow - patron.CreatedOn);
 
             var model = new PatronDetailModel()
             {
@@ -102,9 +109,24 @@ namespace LightLib.Web.Controllers {
                 Telephone = patron.Telephone,
                 HomeLibrary = patron.HomeLibrary,
                 OverdueFees = patron.OverdueFees,
+                AssetsCheckedOut = assetsCheckedOut,
+                CheckoutHistory = checkoutHistory,
+                Holds = holds,
+                HasBeenMemberFor = memberLengthOfTime
             };
 
             return View(model);
+        }
+
+        [HttpPost, ActionName("Delete")]
+        [ValidateAntiForgeryToken]
+        public ActionResult DeleteConfirmed(int id)
+        {
+            var patrons = db.patrons.Find(id);
+            db.patrons.Remove(patrons);
+            db.SaveChanges();
+            
+            return RedirectToAction("Index");
         }
 
     }
