@@ -66,5 +66,46 @@ namespace LightLib.Web.Controllers {
 
             return View(model);
         }
+
+        public async Task<IActionResult> Edit(int id)
+        {
+            var patron = await _patronService.Get(id);
+
+            var model = new PatronDetailModel()
+            {
+                Id = patron.Id,
+                FirstName = patron.FirstName,
+                LastName = patron.LastName,
+                Email = patron.Email,
+                LibraryCardId = patron.LibraryCardId,
+                Address = patron.Address,
+                Telephone = patron.Telephone,
+                HomeLibrary = patron.HomeLibrary,
+                OverdueFees = patron.OverdueFees,
+            };
+
+            return View(model);
+        }
+
+        public async Task<IActionResult> Delete(int id)
+        {
+            var patron = await _patronService.Get(id);
+
+            var model = new PatronDetailModel()
+            {
+                Id = patron.Id,
+                FirstName = patron.FirstName,
+                LastName = patron.LastName,
+                Email = patron.Email,
+                LibraryCardId = patron.LibraryCardId,
+                Address = patron.Address,
+                Telephone = patron.Telephone,
+                HomeLibrary = patron.HomeLibrary,
+                OverdueFees = patron.OverdueFees,
+            };
+
+            return View(model);
+        }
+
     }
 }

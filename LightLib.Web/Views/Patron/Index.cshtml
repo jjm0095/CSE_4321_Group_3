@@ -1,4 +1,5 @@
 ﻿@model LightLib.Web.Models.Patron.PatronIndexModel
+
 @{
     ViewBag.Title = "Patrons";
 }
@@ -19,75 +20,139 @@
 </div>
 
 <div class="row">
-    <div class="col-12">
-	    <button class="btn btn-primary btn-sm">
-		    Add New Patron
-	    </button>
-    </div>
+	<div class="container container-fluid">
+		<table class="table table-responsive-sm table-hover">
+			<thead class="thead-dark">
+			<tr>
+				<th scope="col" style="width: 30%">Details</th>
+				<th scope="col" style="width: 20%">Last</th>
+				<th scope="col" style="width: 20%">First</th>
+				<th scope="col" style="width: 25%">Email</th>
+				<th scope="col" style="width: 5%">Fees</th>
+				<th scope="col" style="width: 5%">Delete</th>
+				<th scope="col" style="width: 5%">Edit</th>
+			</tr>
+			</thead>
+			<tbody>
+			@foreach (var patron in Model.PageOfPatrons.Results) {
+				<a asp-controller="Patron" asp-action="Detail" asp-route-id="@patron.Id">
+					<tr>
+						<th scope="row">
+							<a asp-controller="Patron" asp-action="Detail" asp-route-id="@patron.Id">
+								View Details
+							</a>
+						</th>
+						<td>@patron.LastName</td>
+						<td>@patron.FirstName</td>
+						<td>@patron.Email</td>
+						<td>$@Math.Round(patron.OverdueFees, 2)</td>
+						<td scope="col" style="width: 5%">
+							<a asp-controller="Patron" asp-action="Edit" asp-route-id="@patron.Id">
+								Edit
+							</a>
+						</td>
+						<td scope="col" style="width: 5%">
+							<a asp-controller="Patron" asp-action="Delete" asp-route-id="@patron.Id">
+								Delete
+							</a>
+						</td>
+					</tr>
+				</a>
+			}
+			</tbody>
+		</table>
+        
+		<nav aria-label="Patron Table Navigation Bottom">
+			@{
+				var previousPage = (Model.PageOfPatrons.PageNumber - 1);
+				var nextPage = (Model.PageOfPatrons.PageNumber + 1);
+				var prevDisabled = !Model.PageOfPatrons.HasPreviousPage ? "disabled" : "";
+				var nextDisabled = !Model.PageOfPatrons.HasNextPage ? "disabled" : "";
+			}
+			<ul class="pagination justify-content-end">
+				<li class="page-item small">
+					@Html.ActionLink("Previous", "Index", "Patron", new { page = previousPage}, new { @class="page-link" })
+				</li>
+				<li class="page-item small">
+					@Html.ActionLink("Next", "Index", "Patron", new { page = nextPage }, new { @class="page-link" })
+				</li>
+			</ul>
+		</nav>
+	</div>
 </div>
 
-<hr />
+<hr/>
 
 <div class="row">
-    <div class="container container-fluid">
-        <table class="table table-responsive-sm table-hover">
-            <thead class="thead-dark">
-            <tr>
-                <th scope="col" style="width: 30%">Details</th>
-                <th scope="col" style="width: 20%">Last</th>
-                <th scope="col" style="width: 20%">First</th>
-                <th scope="col" style="width: 25%">Email</th>
-	            <th scope="col" style="width: 5%">Fees</th>
-	            <th scope="col" style="width: 5%">Delete</th>
-	            <th scope="col" style="width: 5%">Edit</th>
-	            </tr>
-            </thead>
-            <tbody>
-            @foreach (var patron in Model.PageOfPatrons.Results) {
-                <a asp-controller="Patron" asp-action="Detail" asp-route-id="@patron.Id">
-                    <tr>
-                        <th scope="row">
-                            <a asp-controller="Patron" asp-action="Detail" asp-route-id="@patron.Id">
-                                View Details
-                            </a>
-                        </th>
-                        <td>@patron.LastName</td>
-                        <td>@patron.FirstName</td>
-                        <td>@patron.Email</td>
-	                    <td>$@Math.Round(patron.OverdueFees, 2)</td>
-	                    <td scope="col" style="width: 5%">
-		                    <button class="btn btn-primary btn-sm">
-			                    Delete
-		                    </button>
-	                    </td>
-	                    <td scope="col" style="width: 5%">
-		                    <button class="btn btn-primary btn-sm">
-			                    Edit
-		                    </button>
-	                    </td>
-                    </tr>
-                </a>
-            }
-            </tbody>
-        </table>
-        
-        <nav aria-label="Patron Table Navigation Bottom">
-          @{
-              var previousPage = (Model.PageOfPatrons.PageNumber - 1);
-              var nextPage = (Model.PageOfPatrons.PageNumber + 1);
-              var prevDisabled = !Model.PageOfPatrons.HasPreviousPage ? "disabled" : "";
-              var nextDisabled = !Model.PageOfPatrons.HasNextPage ? "disabled" : "";
-          }
-          <ul class="pagination justify-content-end">
-	          <li class="page-item small">
-	              @Html.ActionLink("Previous", "Index", "Patron", new { page = previousPage}, new { @class="page-link" })
-              </li>
-	          <li class="page-item small">
-		          @Html.ActionLink("Next", "Index", "Patron", new { page = nextPage }, new { @class="page-link" })
-	          </li>
-          </ul>
-        </nav>
+    <div class="col-12">
+	    
+	    <form method="post" class="form" >
+		    <fieldset>
+			    <legend>Add Patrons</legend>
+			    <div>
+				    <label for="Id">ID:</label><br/>
+				    <input type="text" name="Id" value="" />
+				    @Html.ValidationMessage("companyname")
+			    </div>
+			    <div>
+				    <label for="FirstName">First Name:</label><br/>
+				    <input type="text" name="FirstName" value="" />
+				    @Html.ValidationMessage("companyname")
+			    </div>
+			    <div>
+				    <label for="LastName">Last Name:</label><br/>
+				    <input type="text" name="LastName" value="" />
+				    @Html.ValidationMessage("companyname")
+			    </div>
+			    <div>
+				    <label for="Address">Address:</label><br/>
+				    <input type="text" name="Address" value="" />
+				    @Html.ValidationMessage("companyname")
+			    </div>
+			    <div>
+				    <label for="DateOfBirth">Date Of Birth:</label><br/>
+				    <input type="text" name="DateOfBirth" value="" />
+				    @Html.ValidationMessage("companyname")
+			    </div>
+			    <div>
+				    <label for="Email">Email:</label><br/>
+				    <input type="text" name="Email" value="" />
+				    @Html.ValidationMessage("contactname")
+			    </div>
+			    <div>
+				    <label for="Telephone">Telephone:</label><br/>
+				    <input type="text" name="Telephone" value="" />
+				    @Html.ValidationMessage("employees")
+			    </div>
+			    <div>
+				    <label for="LibraryCardId">Library Card Id:</label><br/>
+				    <input type="text" name="LibraryCardId" value="" />
+				    @Html.ValidationMessage("employees")
+			    </div>
+			    <div>
+				    <label for="HomeLibraryBranchId">Home Library BranchId:</label><br/>
+				    <input type="text" name="HomeLibraryBranchId" value="" />
+				    @Html.ValidationMessage("employees")
+			    </div>
+			    <div>
+				    <label for="CreateOn">Create On:</label><br/>
+				    <input type="text" name="CreateOn" value="" />
+				    @Html.ValidationMessage("employees")
+			    </div>
+			    <div>
+				    <label for="UpdateOn">Update On:</label><br/>
+				    <input type="text" name="UpdateOn" value="" />
+				    @Html.ValidationMessage("employees")
+			    </div>
+			    <div>
+				    <br/>
+				    <ul class="pagination">
+					    <li class="page-item small">
+						    @Html.ActionLink("Add New Patron", "Index", "Patron", new { page = 0}, new { @class="page-link" })
+					    </li>
+					</ul>
+			    </div>
+		    </fieldset>
+	    </form>
     </div>
 </div>
-
-
