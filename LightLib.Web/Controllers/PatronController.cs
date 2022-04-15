@@ -120,14 +120,14 @@ namespace LightLib.Web.Controllers {
             };
 
             //Response.Headers("<script>alert('Delete Pressed!')</script>");
-            var p = await _patronService.Delete(id);
+            //var p = await _patronService.Delete(id);
             //await _patronService.Delete(p)
             return View(model);
         }
         
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
-        public ActionResult DeleteConfirmed(int id)
+        public async Task<IActionResult> DeleteConfirmed(int id)
         {
             _patronService.DeleteConfirmed(id);
 

@@ -34,16 +34,12 @@ namespace LightLib.Service.Patrons {
             return _mapper.Map<PatronDto>(patron);
         }
 
-        public async Task<PatronDto> Delete(int id)
+       
+        public async Task DeleteConfirmed(int id)
         {
-            var patron = await _context.Patrons.FirstOrDefaultAsync(p => p.Id == id);
-            return _mapper.Map<PatronDto>(patron);
-        }
-        public async void DeleteConfirmed(int id)
-        {
-            var patrons = await _context.Patrons.FindAsync(id);
-            _context.Patrons.Remove(patrons);
-            _context.SaveChanges();
+            var patron = await _context.Patrons.FindAsync(id);
+            _context.Patrons.Remove(patron);
+            await _context.SaveChangesAsync();
 
             //return RedirectToAction("Index");
         }

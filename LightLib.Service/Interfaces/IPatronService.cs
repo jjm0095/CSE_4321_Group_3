@@ -11,8 +11,8 @@ namespace LightLib.Service.Interfaces {
         Task<PatronDto> Get(int patronId);
         Task<bool> Add(PatronDto newPatron);
 
-        Task<PatronDto> Delete(int id);
+       
 
-        void DeleteConfirmed(int id);
+        Task DeleteConfirmed (int id);
     }
 }
