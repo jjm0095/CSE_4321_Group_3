@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore;
 namespace LightLib.Service.Patrons {
     public class PatronService : IPatronService {
         
-        private readonly LibraryDbContext _context;
+        private LibraryDbContext _context;
         private readonly IMapper _mapper;
 
         public PatronService(
@@ -23,6 +23,8 @@ namespace LightLib.Service.Patrons {
             _mapper = mapper;
         }
 
+
+
         public async Task<PatronDto> Get(int patronId) {
             var patron = await _context.Patrons
                 .Include(a => a.LibraryCard)
@@ -30,6 +32,16 @@ namespace LightLib.Service.Patrons {
                 .FirstAsync(p => p.Id == patronId);
 
             return _mapper.Map<PatronDto>(patron);
+        }
+
+       
+        public async Task DeleteConfirmed(int id)
+        {
+            var patron = await _context.Patrons.FindAsync(id);
+            _context.Patrons.Remove(patron);
+            await _context.SaveChangesAsync();
+
+            //return RedirectToAction("Index");
         }
 
         public async Task<bool> Add(PatronDto newPatronDto) {
