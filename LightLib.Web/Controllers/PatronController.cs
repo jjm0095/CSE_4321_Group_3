@@ -129,7 +129,7 @@ namespace LightLib.Web.Controllers {
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            _patronService.DeleteConfirmed(id);
+            await _patronService.DeleteConfirmed(id);
 
             return RedirectToAction("Index");
         }
