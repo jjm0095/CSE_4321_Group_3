@@ -1,5 +1,113 @@
-﻿@*
-    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
-*@
+﻿@model LightLib.Data.Models.Patron
 @{
+	ViewBag.Title = "Index";
 }
+
+<div class="form-group">
+	@Html.LabelFor(model => model.Id, new { @class = "control-label col-md-2" })
+	<div class="col-md-10">
+		@Html.EditorFor(model => model.Id, new { htmlAttributes = new { @class = "form-control" } })
+		@Html.ValidationMessageFor(model => model.Id, "", new { @class = "text-danger" })
+	</div>
+</div>
+
+<div class="form-group">
+	@Html.LabelFor(model => model.FirstName, new { @class = "control-label col-md-2" })
+	<div class="col-md-10">
+		@Html.EditorFor(model => model.FirstName, new { htmlAttributes = new { @class = "form-control" } })
+		@Html.ValidationMessageFor(model => model.FirstName, "", new { @class = "text-danger" })
+	</div>
+</div>
+
+<div class="form-group">
+	@Html.LabelFor(model => model.LastName, new { @class = "control-label col-md-2" })
+	<div class="col-md-10">
+		@Html.EditorFor(model => model.LastName, new { htmlAttributes = new { @class = "form-control" } })
+		@Html.ValidationMessageFor(model => model.LastName, "", new { @class = "text-danger" })
+	</div>
+</div>
+
+<div class="form-group">
+	@Html.LabelFor(model => model.Address, new { @class = "control-label col-md-2" })
+	<div class="col-md-10">
+		@Html.EditorFor(model => model.Address, new { htmlAttributes = new { @class = "form-control" } })
+		@Html.ValidationMessageFor(model => model.Address, "", new { @class = "text-danger" })
+	</div>
+</div>
+
+<div class="form-group">
+	@Html.LabelFor(model => model.DateOfBirth, new { @class = "control-label col-md-2" })
+	<div class="col-md-10">
+		@Html.EditorFor(model => model.DateOfBirth, new { htmlAttributes = new { @class = "form-control" } })
+		@Html.ValidationMessageFor(model => model.DateOfBirth, "", new { @class = "text-danger" })
+	</div>
+</div>
+
+<div class="form-group">
+	@Html.LabelFor(model => model.Email, new { @class = "control-label col-md-2" })
+	<div class="col-md-10">
+		@Html.EditorFor(model => model.Email, new { htmlAttributes = new { @class = "form-control" } })
+		@Html.ValidationMessageFor(model => model.Email, "", new { @class = "text-danger" })
+	</div>
+</div>
+
+<div class="form-group">
+	@Html.LabelFor(model => model.Telephone, new { @class = "control-label col-md-2" })
+	<div class="col-md-10">
+		@Html.EditorFor(model => model.Telephone, new { htmlAttributes = new { @class = "form-control" } })
+		@Html.ValidationMessageFor(model => model.Telephone, "", new { @class = "text-danger" })
+	</div>
+</div>
+@*
+<div class="form-group">
+	@Html.LabelFor(model => model.LibraryCard, new { @class = "control-label col-md-2" })
+	<div class="col-md-10">
+		@Html.EditorFor(model => model.LibraryCard, new { htmlAttributes = new { @class = "form-control" } })
+		@Html.ValidationMessageFor(model => model.LibraryCard, "", new { @class = "text-danger" })
+	</div>
+</div>
+
+<div class="form-group">
+	@Html.LabelFor(model => model.HomeLibraryBranch, new { @class = "control-label col-md-2" })
+	<div class="col-md-10">
+		@Html.EditorFor(model => model.HomeLibraryBranch, new { htmlAttributes = new { @class = "form-control" } })
+		@Html.ValidationMessageFor(model => model.HomeLibraryBranch, "", new { @class = "text-danger" })
+	</div>
+</div>
+
+<div class="form-group">
+	@Html.LabelFor(model => model.CreatedOn, new { @class = "control-label col-md-2" })
+	<div class="col-md-10">
+		@Html.EditorFor(model => model.CreatedOn, new { htmlAttributes = new { @class = "form-control" } })
+		@Html.ValidationMessageFor(model => model.CreatedOn, "", new { @class = "text-danger" })
+	</div>
+</div>
+
+<div class="form-group">
+	@Html.LabelFor(model => model.UpdatedOn, new { @class = "control-label col-md-2" })
+	<div class="col-md-10">
+		@Html.EditorFor(model => model.UpdatedOn, new { htmlAttributes = new { @class = "form-control" } })
+		@Html.ValidationMessageFor(model => model.UpdatedOn, "", new { @class = "text-danger" })
+	</div>
+</div>
+*@
+<br/>
+
+<div class="form-group">
+	<div class="col-md-offset-2 col-md-10">
+		<input type="submit" method="post" value="Create" class="btn btn-primary btn-sm" />
+	</div>
+</div>
+
+@{  
+	if (@TempData["Msg"] != null)  
+	{  
+		<script>  
+			alert('@TempData["msg"]')  
+		</script>  
+	}  
+}  
+
+<div>
+	@Html.ActionLink("Back to List", "Index")
+</div>

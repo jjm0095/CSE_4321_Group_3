@@ -17,6 +17,7 @@ namespace LightLib.Web.Controllers {
     public class PatronController : LibraryController {
         private readonly IPatronService _patronService;
         private PatronDBContext db = new PatronDBContext();
+        private PatronDBAccessLayer pdb = new PatronDBAccessLayer();
         public PatronController(IPatronService patronService) {
             _patronService = patronService;
         }
@@ -118,6 +119,55 @@ namespace LightLib.Web.Controllers {
             return View(model);
         }
 
+        /*
+        public async Task<IActionResult> Create()
+        {
+
+            var model = new PatronDetailModel()
+            {
+                Id = 0,
+                FirstName = null,
+                LastName = null,
+                Email = null,
+                LibraryCardId = 0,
+                Address = null,
+                Telephone = null,
+                HomeLibrary = null,
+                OverdueFees = null,
+                AssetsCheckedOut = null,
+                CheckoutHistory = null,
+                Holds = null,
+                HasBeenMemberFor = null
+            };
+
+            return View(model);
+        }
+        */
+        [HttpGet]
+        public IActionResult Create()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        public IActionResult Create([Bind] Patron patron)
+        {
+            try
+            {
+                if (ModelState.IsValid)
+                {
+                    string resp = pdb.AddPatron(patron);
+                    TempData["msg"] = resp;
+                }
+            }
+            catch (Exception ex)
+            {
+                TempData["msg"] = ex.Message;
+            }
+            return View();
+        }
+    
+        /*
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(int id)
@@ -128,6 +178,6 @@ namespace LightLib.Web.Controllers {
             
             return RedirectToAction("Index");
         }
-
+        */
     }
 }
