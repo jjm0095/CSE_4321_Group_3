@@ -1,7 +1,6 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-using Microsoft.EntityFrameworkCore;
 
 namespace LightLib.Data.Models {
     [Table("patrons")]
@@ -18,10 +17,4 @@ namespace LightLib.Data.Models {
         [Required] public LibraryCard LibraryCard { get; set; }
         public LibraryBranch HomeLibraryBranch { get; set; }
     }
-
-    public class PatronDBContext : LibraryDbContext
-    {
-        public DbSet<Patron> patrons { get; set; }
-    }
-
 }
